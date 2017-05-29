@@ -27,9 +27,9 @@ class Game {
 		
 		frame.add(gameClass)
 		
-		frame.pack()
 		frame.isResizable = false
 		frame.isVisible = true
+		frame.pack()
 		
 		gameClass.start()
 		
