@@ -105,7 +105,7 @@ class GameClass : Canvas(), Runnable {
 		if (DEBUG) {
 			g.color = Color.RED
 			g.font = Font("Verdana", BOLD, 24)
-			g.drawString("$fps fps, (${tank1.x}, ${tank1.y})", 0, 20)
+			g.drawString("$fps fps", 0, 20)
 			g.font = Font("Verdana", Font.BOLD, 12)
 		}
 		
