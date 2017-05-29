@@ -167,8 +167,10 @@ class GameClass : Canvas(), Runnable {
 				
 			}
 			
-			render()
-			frames++
+			if (!FPS_CAP) {
+				render()
+				frames++
+			}
 			
 		}
 		

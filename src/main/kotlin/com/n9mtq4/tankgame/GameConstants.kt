@@ -7,6 +7,7 @@ import java.awt.Color
  *
  * @author Will "n9Mtq4" Bresnahan
  */
+const val FPS_CAP = true
 const val GAME_SPEED = 60.0
 const val GAME_WIDTH = 400
 const val GAME_HEIGHT = 500
