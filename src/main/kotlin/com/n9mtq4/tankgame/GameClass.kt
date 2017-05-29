@@ -1,6 +1,5 @@
 package com.n9mtq4.tankgame
 
-import com.sun.webkit.graphics.GraphicsDecoder.SCALE
 import java.awt.Canvas
 import java.awt.Color
 import java.awt.Dimension
@@ -10,7 +9,6 @@ import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
-import java.awt.image.ImageObserver
 
 
 /**
@@ -107,7 +105,7 @@ class GameClass : Canvas(), Runnable {
 		if (DEBUG) {
 			g.color = Color.RED
 			g.font = Font("Verdana", BOLD, 24)
-			g.drawString("$fps fps, (${tank1.x}, ${tank1.y})", 0, ImageObserver.HEIGHT * SCALE - 18)
+			g.drawString("$fps fps, (${tank1.x}, ${tank1.y})", 0, 20)
 			g.font = Font("Verdana", Font.BOLD, 12)
 		}
 		
