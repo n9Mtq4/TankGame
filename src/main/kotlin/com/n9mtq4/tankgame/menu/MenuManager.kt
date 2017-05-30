@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
+import java.lang.IllegalStateException
 import java.util.Stack
 
 /**
@@ -32,10 +33,11 @@ class MenuManager(val gameClass: GameClass) : KeyListener, MouseListener {
 		menuStack.push(menu)
 	}
 	
-	@Throws(IllegalAccessException::class)
+	@Throws(IllegalStateException::class)
 	fun popMenu(menu: Menu) {
-		if (menuStack.peek() == menu) menuStack.pop()
-		else throw IllegalAccessException("Can't pop a menu that isn't yourself!")
+		if (menuStack.peek() != menu) throw IllegalStateException("Can't pop a menu that isn't yourself!")
+		if (menuStack.size == 1) throw IllegalStateException("Can't pop the last menu!")
+		menuStack.pop()
 	}
 	
 	fun startGame(level: Level = loadLevel(1, gameClass) ?: Level(50, 50, gameClass)) { // TODO: make level size a variable?
