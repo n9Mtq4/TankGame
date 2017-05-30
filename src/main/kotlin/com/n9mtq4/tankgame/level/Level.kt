@@ -1,6 +1,12 @@
-package com.n9mtq4.tankgame
+package com.n9mtq4.tankgame.level
 
 import com.n9mtq4.kotlin.extlib.ignoreAndNull
+import com.n9mtq4.tankgame.BARRIER_COLOR
+import com.n9mtq4.tankgame.GAME_HEIGHT
+import com.n9mtq4.tankgame.GAME_SCALE
+import com.n9mtq4.tankgame.GAME_WIDTH
+import com.n9mtq4.tankgame.SCORE_OFFSET
+import com.n9mtq4.tankgame.menu.menus.GameMenu
 import java.awt.Graphics
 
 /**
@@ -8,7 +14,7 @@ import java.awt.Graphics
  *
  * @author Will "n9Mtq4" Bresnahan
  */
-class Level(val width: Int, val height: Int, val game: GameClass) {
+class Level(val width: Int, val height: Int, val game: GameMenu) {
 	
 	val tiles: Array<Tile> = Array(width * height) { i -> Tile.OpenTile(i / width, i % width, game) }
 	

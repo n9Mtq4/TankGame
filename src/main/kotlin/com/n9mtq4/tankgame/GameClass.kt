@@ -6,12 +6,6 @@ import java.awt.Color
 import java.awt.Dimension
 import java.awt.Font
 import java.awt.Font.BOLD
-import java.awt.Graphics
-import java.awt.Graphics2D
-import java.awt.event.KeyEvent
-import java.awt.event.KeyListener
-import java.awt.event.MouseEvent
-import java.awt.event.MouseListener
 
 
 /**
@@ -30,27 +24,15 @@ class GameClass : Canvas(), Runnable {
 	lateinit var thread: Thread
 	
 	var menuManager = MenuManager(this)
-	var keyboardListener = KeyBoardListener()
-	var mouseGameListener = MouseGameListener()
-	var level = loadLevel(1, this)
-	
-	private var tank1 = Tank(100.0, 100.0, 0.0, TEAM_ONE_COLOR, keyboardListener.tank1, this)
-	private var tank2 = Tank(120.0, 120.0, 180.0, TEAM_TWO_COLOR, keyboardListener.tank2, this)
-	
-	var tanks = listOf<Tank>(tank1, tank2)
 	
 	init {
 		
 		preferredSize = Dimension(GAME_WIDTH * GAME_SCALE, GAME_HEIGHT * GAME_SCALE)
 		
-		addKeyListener(keyboardListener)
-		addMouseListener(mouseGameListener)
+		addKeyListener(menuManager)
+		addMouseListener(menuManager)
+		addMouseMotionListener(menuManager)
 		
-	}
-	
-	fun reset(level: Level) {
-		tanks.forEach { it.score = 0; it.cooldown = 0 }
-		this.level = level
 	}
 	
 	fun start() {
@@ -66,48 +48,6 @@ class GameClass : Canvas(), Runnable {
 		thread.join()
 	}
 	
-	fun menuRender(g: Graphics) {
-		menuManager.draw(g)
-	}
-	
-	fun gameRender(g: Graphics) {
-		
-		g as Graphics2D // smart casting
-		
-		val fontRenderContext = g.fontRenderContext
-		
-		// background
-		g.color = BACKGROUND_COLOR
-		g.fillRect(0, 0, GAME_WIDTH * GAME_SCALE, GAME_HEIGHT * GAME_SCALE)
-		
-		// tanks
-		tanks.forEach { it.draw(g) }
-		
-		// level
-		level?.draw(g)
-		
-		// score card
-		g.color = SCORE_BACKGROUND_COLOR
-		g.fillRect(0, 0, GAME_WIDTH * GAME_SCALE, SCORE_OFFSET * GAME_SCALE)
-		
-		g.font = Font("Verdana", Font.BOLD, 200)
-		
-		val spacing = GAME_WIDTH * GAME_SCALE / 3
-		
-		g.color = TEAM_ONE_COLOR
-		val team1Score = tank1.score.toString()
-		val width1 = g.font.getWidth(team1Score, fontRenderContext)
-		val height1 = g.font.getHeight(team1Score, fontRenderContext)
-		g.drawString(tank1.score.toString(), spacing - (width1 / 2), height1 + SCORE_MARGIN_TOP)
-		
-		g.color = TEAM_TWO_COLOR
-		val team2Score = tank2.score.toString()
-		val width2 = g.font.getWidth(team2Score, fontRenderContext)
-		val height2 = g.font.getHeight(team2Score, fontRenderContext)
-		g.drawString(tank2.score.toString(), spacing * 2 - (width2 / 2), height2 + SCORE_MARGIN_TOP)
-		
-	}
-	
 	fun render() {
 		
 		val bs = this.bufferStrategy
@@ -117,8 +57,7 @@ class GameClass : Canvas(), Runnable {
 		}
 		val g = bs.drawGraphics
 		
-		if (menuManager.inGame) gameRender(g)
-		else menuRender(g)
+		menuManager.draw(g)
 		
 		if (DEBUG) {
 			g.color = Color.RED
@@ -134,10 +73,7 @@ class GameClass : Canvas(), Runnable {
 	
 	fun tick() {
 		
-		if (menuManager.inGame) {
-			level?.tick()
-			tanks.forEach { it.tick() }
-		}
+		menuManager.tick()
 		
 	}
 	
@@ -192,103 +128,6 @@ class GameClass : Canvas(), Runnable {
 				frames++
 			}
 			
-		}
-		
-	}
-	
-	inner class KeyBoardListener : KeyListener {
-		
-		val tank1 = booleanArrayOf(false, false, false, false, false)
-		val tank2 = booleanArrayOf(false, false, false, false, false)
-		
-		override fun keyTyped(e: KeyEvent?) {
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.keyTyped(e)
-				return
-			}
-		}
-		
-		override fun keyPressed(e: KeyEvent?) {
-			
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.keyPressed(e)
-				return
-			}
-			
-			when (e?.keyCode) {
-				KeyEvent.VK_W -> tank1[0] = true
-				KeyEvent.VK_S -> tank1[1] = true
-				KeyEvent.VK_A -> tank1[2] = true
-				KeyEvent.VK_D -> tank1[3] = true
-				KeyEvent.VK_E -> tank1[4] = true
-				KeyEvent.VK_UP -> tank2[0] = true
-				KeyEvent.VK_DOWN -> tank2[1] = true
-				KeyEvent.VK_LEFT -> tank2[2] = true
-				KeyEvent.VK_RIGHT -> tank2[3] = true
-				KeyEvent.VK_SLASH -> tank2[4] = true
-			}
-			
-		}
-		
-		override fun keyReleased(e: KeyEvent?) {
-			
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.keyReleased(e)
-				return
-			}
-			
-			when (e?.keyCode) {
-				KeyEvent.VK_W -> tank1[0] = false
-				KeyEvent.VK_S -> tank1[1] = false
-				KeyEvent.VK_A -> tank1[2] = false
-				KeyEvent.VK_D -> tank1[3] = false
-				KeyEvent.VK_E -> tank1[4] = false
-				KeyEvent.VK_UP -> tank2[0] = false
-				KeyEvent.VK_DOWN -> tank2[1] = false
-				KeyEvent.VK_LEFT -> tank2[2] = false
-				KeyEvent.VK_RIGHT -> tank2[3] = false
-				KeyEvent.VK_SLASH -> tank2[4] = false
-			}
-			
-		}
-		
-	}
-	
-	inner class MouseGameListener : MouseListener {
-		
-		override fun mouseReleased(e: MouseEvent?) {
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.mouseReleased(e)
-				return
-			}
-		}
-		
-		override fun mouseEntered(e: MouseEvent?) {
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.mouseEntered(e)
-				return
-			}
-		}
-		
-		override fun mouseClicked(e: MouseEvent?) {
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.mouseClicked(e)
-				return
-			}
-		}
-		
-		override fun mouseExited(e: MouseEvent?) {
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.mouseExited(e)
-				return
-			}
-		}
-		
-		override fun mousePressed(e: MouseEvent?) {
-			if (!this@GameClass.menuManager.inGame) {
-				menuManager.mousePressed(e)
-				return
-			}
 		}
 		
 	}

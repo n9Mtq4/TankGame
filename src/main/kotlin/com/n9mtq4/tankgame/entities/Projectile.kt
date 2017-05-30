@@ -1,6 +1,11 @@
-package com.n9mtq4.tankgame
+package com.n9mtq4.tankgame.entities
 
 import com.n9mtq4.kotlin.extlib.ignore
+import com.n9mtq4.tankgame.GAME_HEIGHT
+import com.n9mtq4.tankgame.GAME_SCALE
+import com.n9mtq4.tankgame.GAME_WIDTH
+import com.n9mtq4.tankgame.SCORE_OFFSET
+import com.n9mtq4.tankgame.menu.menus.GameMenu
 import java.awt.Graphics
 
 /**
@@ -8,7 +13,7 @@ import java.awt.Graphics
  *
  * @author Will "n9Mtq4" Bresnahan
  */
-class Projectile(x: Double, y: Double, var velocity: Double, var angle: Double, game: GameClass, val tank: Tank) : Entity(x, y, game) {
+class Projectile(x: Double, y: Double, var velocity: Double, var angle: Double, game: GameMenu, val tank: Tank) : Entity(x, y, game) {
 	
 	companion object {
 		const val PROJECTILE_SIZE = 5

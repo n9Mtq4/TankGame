@@ -11,16 +11,15 @@ import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
+import java.awt.event.MouseMotionListener
 import java.awt.font.FontRenderContext
-
-
 
 /**
  * Created by will on 5/29/17 at 7:01 PM.
  *
  * @author Will "n9Mtq4" Bresnahan
  */
-open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener {
+open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener, MouseMotionListener {
 	
 	companion object {
 		val TITLE_FONT = Font(Font.SANS_SERIF, Font.BOLD, 80)
@@ -29,6 +28,18 @@ open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener {
 	}
 	
 	open fun draw(g: Graphics) {
+		g.clearAll()
+	}
+	
+	open fun tick() {
+		
+	}
+	
+	open fun onPop() {
+		
+	}
+	
+	open fun onPush() {
 		
 	}
 	
@@ -60,6 +71,9 @@ open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener {
 	override fun mouseClicked(e: MouseEvent?) {}
 	override fun mouseExited(e: MouseEvent?) {}
 	override fun mousePressed(e: MouseEvent?) {}
+	
+	override fun mouseMoved(e: MouseEvent?) {}
+	override fun mouseDragged(e: MouseEvent?) {}
 	
 	fun Graphics.clearAll() {
 		this.clearRect(0, 0, GAME_WIDTH * GAME_SCALE, GAME_HEIGHT * GAME_SCALE)

@@ -1,6 +1,7 @@
-package com.n9mtq4.tankgame
+package com.n9mtq4.tankgame.level
 
 import com.n9mtq4.kotlin.extlib.ignoreAndNull
+import com.n9mtq4.tankgame.menu.menus.GameMenu
 import javax.imageio.ImageIO
 
 /**
@@ -9,7 +10,7 @@ import javax.imageio.ImageIO
  * @author Will "n9Mtq4" Bresnahan
  */
 
-fun loadLevel(num: Int, game: GameClass) = ignoreAndNull<Level> { 
+fun loadLevel(num: Int, game: GameMenu) = ignoreAndNull<Level> { 
 	
 	val path = toPath(num)
 	

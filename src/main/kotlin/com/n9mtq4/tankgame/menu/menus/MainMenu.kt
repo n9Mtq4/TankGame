@@ -1,6 +1,9 @@
-package com.n9mtq4.tankgame.menu
+package com.n9mtq4.tankgame.menu.menus
 
 import com.n9mtq4.tankgame.getHeight
+import com.n9mtq4.tankgame.menu.Menu
+import com.n9mtq4.tankgame.menu.MenuManager
+import com.n9mtq4.tankgame.menu.MenuOption
 import java.awt.Graphics
 import java.awt.event.KeyEvent
 import java.awt.event.KeyEvent.VK_DOWN
