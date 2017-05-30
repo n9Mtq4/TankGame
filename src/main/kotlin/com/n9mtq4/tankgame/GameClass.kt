@@ -1,5 +1,6 @@
 package com.n9mtq4.tankgame
 
+import com.n9mtq4.tankgame.menu.MenuManager
 import java.awt.Canvas
 import java.awt.Color
 import java.awt.Dimension
@@ -9,6 +10,8 @@ import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
+import java.awt.event.MouseEvent
+import java.awt.event.MouseListener
 
 
 /**
@@ -26,7 +29,9 @@ class GameClass : Canvas(), Runnable {
 	var fps = 0
 	lateinit var thread: Thread
 	
+	var menuManager = MenuManager(this)
 	var keyboardListener = KeyBoardListener()
+	var mouseGameListener = MouseGameListener()
 	var level = loadLevel(1, this)
 	
 	private var tank1 = Tank(100.0, 100.0, 0.0, TEAM_ONE_COLOR, keyboardListener.tank1, this)
@@ -39,18 +44,30 @@ class GameClass : Canvas(), Runnable {
 		preferredSize = Dimension(GAME_WIDTH * GAME_SCALE, GAME_HEIGHT * GAME_SCALE)
 		
 		addKeyListener(keyboardListener)
+		addMouseListener(mouseGameListener)
 		
 	}
 	
+	fun reset(level: Level) {
+		tanks.forEach { it.score = 0; it.cooldown = 0 }
+		this.level = level
+	}
+	
 	fun start() {
+		if (running) return
 		this.running = true
 		thread = Thread(this)
 		thread.start()
 	}
 	
 	fun stop() {
+		if (!running) return
 		this.running = false
 		thread.join()
+	}
+	
+	fun menuRender(g: Graphics) {
+		menuManager.draw(g)
 	}
 	
 	fun gameRender(g: Graphics) {
@@ -100,7 +117,8 @@ class GameClass : Canvas(), Runnable {
 		}
 		val g = bs.drawGraphics
 		
-		gameRender(g)
+		if (menuManager.inGame) gameRender(g)
+		else menuRender(g)
 		
 		if (DEBUG) {
 			g.color = Color.RED
@@ -116,8 +134,10 @@ class GameClass : Canvas(), Runnable {
 	
 	fun tick() {
 		
-		level?.tick()
-		tanks.forEach { it.tick() }
+		if (menuManager.inGame) {
+			level?.tick()
+			tanks.forEach { it.tick() }
+		}
 		
 	}
 	
@@ -176,14 +196,24 @@ class GameClass : Canvas(), Runnable {
 		
 	}
 	
-	class KeyBoardListener : KeyListener {
+	inner class KeyBoardListener : KeyListener {
 		
 		val tank1 = booleanArrayOf(false, false, false, false, false)
 		val tank2 = booleanArrayOf(false, false, false, false, false)
 		
-		override fun keyTyped(e: KeyEvent?) {}
+		override fun keyTyped(e: KeyEvent?) {
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.keyTyped(e)
+				return
+			}
+		}
 		
 		override fun keyPressed(e: KeyEvent?) {
+			
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.keyPressed(e)
+				return
+			}
 			
 			when (e?.keyCode) {
 				KeyEvent.VK_W -> tank1[0] = true
@@ -202,6 +232,11 @@ class GameClass : Canvas(), Runnable {
 		
 		override fun keyReleased(e: KeyEvent?) {
 			
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.keyReleased(e)
+				return
+			}
+			
 			when (e?.keyCode) {
 				KeyEvent.VK_W -> tank1[0] = false
 				KeyEvent.VK_S -> tank1[1] = false
@@ -215,6 +250,45 @@ class GameClass : Canvas(), Runnable {
 				KeyEvent.VK_SLASH -> tank2[4] = false
 			}
 			
+		}
+		
+	}
+	
+	inner class MouseGameListener : MouseListener {
+		
+		override fun mouseReleased(e: MouseEvent?) {
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.mouseReleased(e)
+				return
+			}
+		}
+		
+		override fun mouseEntered(e: MouseEvent?) {
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.mouseEntered(e)
+				return
+			}
+		}
+		
+		override fun mouseClicked(e: MouseEvent?) {
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.mouseClicked(e)
+				return
+			}
+		}
+		
+		override fun mouseExited(e: MouseEvent?) {
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.mouseExited(e)
+				return
+			}
+		}
+		
+		override fun mousePressed(e: MouseEvent?) {
+			if (!this@GameClass.menuManager.inGame) {
+				menuManager.mousePressed(e)
+				return
+			}
 		}
 		
 	}
