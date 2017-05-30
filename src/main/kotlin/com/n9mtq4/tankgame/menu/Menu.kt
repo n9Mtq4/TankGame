@@ -6,6 +6,7 @@ import com.n9mtq4.tankgame.GAME_SCALE
 import com.n9mtq4.tankgame.GAME_WIDTH
 import java.awt.Font
 import java.awt.Graphics
+import java.awt.Graphics2D
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
 import java.awt.event.MouseEvent
@@ -22,9 +23,9 @@ import java.awt.font.FontRenderContext
 open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener {
 	
 	companion object {
-		val TITLE_FONT = Font(Font.SANS_SERIF, Font.BOLD, 50)
-		val OPTION_FONT = Font(Font.SANS_SERIF, Font.PLAIN, 24)
-		val SELECTED_OPTION_FONT = Font(Font.SANS_SERIF, Font.BOLD, 24)
+		val TITLE_FONT = Font(Font.SANS_SERIF, Font.BOLD, 80)
+		val OPTION_FONT = Font(Font.SANS_SERIF, Font.PLAIN, 50)
+		val SELECTED_OPTION_FONT = Font(Font.SANS_SERIF, Font.BOLD, 50)
 	}
 	
 	open fun draw(g: Graphics) {
@@ -37,10 +38,6 @@ open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener {
 	
 	fun pop() {
 		menuManager.popMenu(this)
-	}
-	
-	fun Graphics.clearAll() {
-		this.clearRect(0, 0, GAME_WIDTH * GAME_SCALE, GAME_HEIGHT * GAME_SCALE)
 	}
 	
 	protected fun calcCenter(text: String, font: Font, fontRenderContext: FontRenderContext): Int {
@@ -63,5 +60,11 @@ open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener {
 	override fun mouseClicked(e: MouseEvent?) {}
 	override fun mouseExited(e: MouseEvent?) {}
 	override fun mousePressed(e: MouseEvent?) {}
+	
+	fun Graphics.clearAll() {
+		this.clearRect(0, 0, GAME_WIDTH * GAME_SCALE, GAME_HEIGHT * GAME_SCALE)
+	}
+	val Graphics.frc
+		get() = (this as Graphics2D).fontRenderContext
 	
 }

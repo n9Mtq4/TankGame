@@ -2,9 +2,13 @@ package com.n9mtq4.tankgame.menu
 
 import com.n9mtq4.tankgame.getHeight
 import java.awt.Graphics
-import java.awt.Graphics2D
 import java.awt.event.KeyEvent
-import java.awt.event.KeyEvent.*
+import java.awt.event.KeyEvent.VK_DOWN
+import java.awt.event.KeyEvent.VK_E
+import java.awt.event.KeyEvent.VK_ENTER
+import java.awt.event.KeyEvent.VK_S
+import java.awt.event.KeyEvent.VK_UP
+import java.awt.event.KeyEvent.VK_W
 
 /**
  * Created by will on 5/29/17 at 7:54 PM.
@@ -32,23 +36,21 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		super.draw(g)
 		
 		g.clearAll()
-		g as Graphics2D
-		val frc = g.fontRenderContext
 		
 		// title
 		g.font = TITLE_FONT
-		val x = calcCenter(GAME_TITLE, g.font, frc)
-		g.drawString(GAME_TITLE, x, g.font.getHeight(GAME_TITLE, frc) + 20)
+		val x = calcCenter(GAME_TITLE, g.font, g.frc)
+		g.drawString(GAME_TITLE, x, g.font.getHeight(GAME_TITLE, g.frc) + 20)
 		
 		// options
 		options.forEachIndexed { index, option ->
 			
 			val text = option.optionName
 			
-			if (selectedOption == index) g.setFont(SELECTED_OPTION_FONT)
-			else g.setFont(OPTION_FONT)
+			if (selectedOption == index) g.font = SELECTED_OPTION_FONT
+			else g.font = OPTION_FONT
 			
-			g.drawString(text, calcCenter(text, g.font, frc), (g.font.getHeight(text, frc) + FONT_SPACING) * index + CHOICE_YOFFSET)
+			g.drawString(text, calcCenter(text, g.font, g.frc), (g.font.getHeight(text, g.frc) + FONT_SPACING) * index + CHOICE_YOFFSET)
 			
 		}
 		
