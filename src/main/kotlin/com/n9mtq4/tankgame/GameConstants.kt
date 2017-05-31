@@ -15,13 +15,16 @@ const val SCORE_OFFSET = 100
 const val GAME_SCALE = 2
 const val DEBUG = true
 
-val SCORE_BACKGROUND_COLOR = Color.CYAN
-val BACKGROUND_COLOR = Color.WHITE
-val BARRIER_COLOR = Color.BLACK
-val TEAM_ONE_COLOR = Color.RED
-val TEAM_TWO_COLOR = Color.BLUE
+const val LEVEL_WIDTH = 50
+const val LEVEL_HEIGHT = 50
 
-val PROJECTILE_COLOR = Color.BLACK
+val SCORE_BACKGROUND_COLOR: Color = Color.CYAN
+val BACKGROUND_COLOR: Color = Color.WHITE
+val BARRIER_COLOR: Color = Color.BLACK
+val TEAM_ONE_COLOR: Color = Color.RED
+val TEAM_TWO_COLOR: Color = Color.BLUE
+
+val PROJECTILE_COLOR: Color = Color.BLACK
 
 const val TANK_FORWARD_SPEED = 1.2
 const val TANK_BACKWARD_SPEED = TANK_FORWARD_SPEED

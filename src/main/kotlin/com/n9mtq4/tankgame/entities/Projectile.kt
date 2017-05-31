@@ -43,7 +43,7 @@ class Projectile(x: Double, y: Double, var velocity: Double, var angle: Double, 
 		}
 		
 		// get tile that it will enter
-		ignore { game.level?.getTileAt(nx, ny)?.onEnter(this) }
+		ignore { game.level?.getTileAtTankCoords(nx, ny)?.onEnter(this) }
 		
 		if (nx !in 0..GAME_WIDTH || ny !in 0..GAME_HEIGHT - SCORE_OFFSET) destroy()
 		

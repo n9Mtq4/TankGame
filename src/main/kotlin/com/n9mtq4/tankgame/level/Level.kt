@@ -41,7 +41,10 @@ class Level(val width: Int, val height: Int, val game: GameMenu) {
 		
 	}
 	
-	fun getTileAt(x: Double, y: Double): Tile? {
+	/**
+	 * Gets the tile at the desired coords
+	 * */
+	fun getTileAtTankCoords(x: Double, y: Double): Tile? {
 		
 		// TODO: uses getRenderX and getRenderY without calling it!
 		val tileX = x / tileWidth * GAME_SCALE
@@ -50,5 +53,13 @@ class Level(val width: Int, val height: Int, val game: GameMenu) {
 		return ignoreAndNull { tiles[width * tileY.toInt() + tileX.toInt()] }
 		
 	}
+	
+	operator fun get(x: Int, y: Int) = tiles[width * y + x]
+	operator fun get(index: Int) = tiles[index]
+	operator fun set(x: Int, y: Int, value: Tile) { tiles[width * y + x] = value }
+	operator fun set(index: Int, value: Tile) { tiles[index] = value }
+	
+	fun aGetRenderX(x: Double) = x / tileWidth
+	fun aGetRenderY(y: Double) = (y - SCORE_OFFSET * GAME_SCALE) / tileHeight
 	
 }

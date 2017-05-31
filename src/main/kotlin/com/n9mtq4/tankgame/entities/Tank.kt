@@ -122,14 +122,14 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 		moveX(nx)
 		moveY(ny)
 		
-		game.level?.getTileAt(nx, ny)?.onEnter(this)
+		game.level?.getTileAtTankCoords(nx, ny)?.onEnter(this)
 		
 	}
 	
 	private fun moveX(nx: Double) {
 		
 		if (nx in 0..GAME_WIDTH) {
-			game.level?.getTileAt(nx, y)?.let {
+			game.level?.getTileAtTankCoords(nx, y)?.let {
 				if (!it.isSolid(this)) {
 					x = nx
 				}
@@ -141,7 +141,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 	private fun moveY(ny: Double) {
 		
 		if (ny in 0..GAME_HEIGHT - SCORE_OFFSET) {
-			game.level?.getTileAt(x, ny)?.let {
+			game.level?.getTileAtTankCoords(x, ny)?.let {
 				if (!it.isSolid(this)) {
 					y = ny
 				}
