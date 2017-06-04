@@ -27,6 +27,10 @@ class Level(val width: Int, val height: Int, val game: GameMenu) {
 	
 	var firstTime = true
 	
+	fun reset() {
+		this.firstTime = true
+	}
+	
 	fun tick() {
 		
 		if (firstTime) {

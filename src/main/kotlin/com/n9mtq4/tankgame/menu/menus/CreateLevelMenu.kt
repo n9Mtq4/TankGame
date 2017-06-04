@@ -179,6 +179,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		val sp2 = level.getSpawnLocationForTeam(2)
 		if (sp1 != POINT2I_INVALID && sp2 != POINT2I_INVALID) {
 			// there are two spawn points, play the game
+			level.reset()
 			menuManager.startGame(level)
 		}else {
 			// there are not two spawn points, tell them to add some
