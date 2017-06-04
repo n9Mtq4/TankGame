@@ -218,6 +218,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 	}
 	
 	override fun keyPressed(e: KeyEvent?) {
+		super.keyPressed(e)
 		when (e?.keyCode) {
 			KeyEvent.VK_OPEN_BRACKET -> decBrush()
 			KeyEvent.VK_CLOSE_BRACKET -> incBrush()
