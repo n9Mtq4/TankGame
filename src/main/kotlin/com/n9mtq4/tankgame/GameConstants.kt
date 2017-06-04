@@ -12,7 +12,7 @@ const val GAME_SPEED = 60.0
 const val GAME_WIDTH = 400
 const val GAME_HEIGHT = 500
 const val SCORE_OFFSET = 100
-const val GAME_SCALE = 2 // has to be two or else bugs!
+const val GAME_SCALE = 2
 const val DEBUG = true
 
 const val LEVEL_WIDTH = 50
