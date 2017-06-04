@@ -51,15 +51,18 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		level.draw(g)
 		level.drawSpawnLocations(g)
 		
+		// draw brush
+		g.color = Color.DARK_GRAY
+		val bwidth = brushRadius * level.tileWidth * GAME_SCALE + (level.tileWidth / 2)
+		val bheight = brushRadius * level.tileHeight * GAME_SCALE + (level.tileHeight / 2)
+		g.drawRect(mx - bwidth / 2, my - bheight / 2, bwidth, bheight)
+		
 		// score card
 		g.color = SCORE_BACKGROUND_COLOR
 		g.fillRect(0, 0, GAME_WIDTH * GAME_SCALE, SCORE_OFFSET * GAME_SCALE)
 		
 		g.color = Color.BLACK
 		g.font = CONTROL_FONT
-		
-//		val height1 = g.font.getHeight(SCORE_PLACEHOLDER, g.frc)
-//		g.drawString(SCORE_PLACEHOLDER, calcCenter(SCORE_PLACEHOLDER, g.font, g.frc), height1 + GameClass.SCORE_MARGIN_TOP)
 		
 		val height1 = g.font.getHeight("ABCDEFG", g.frc)
 		g.drawString("Brush Radius: $brushRadius", 0, height1 + GameClass.SCORE_MARGIN_TOP)
@@ -182,7 +185,6 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 			menuManager.pushMenu(NoSpawnPointsMenu(menuManager))
 		}
 		
-		
 	}
 	
 	private fun decBrush() {
@@ -215,6 +217,10 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	override fun mouseDragged(e: MouseEvent?) {
 		e?.let { onDrag(it.x, it.y) }
+		e?.let {
+			this.mx = it.x
+			this.my = it.y
+		}
 	}
 	
 	override fun keyPressed(e: KeyEvent?) {
