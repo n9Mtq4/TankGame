@@ -33,14 +33,15 @@ class Projectile(x: Double, y: Double, var velocity: Double, var angle: Double, 
 		val nx = x + xd
 		val ny = y + yd
 		
-		game.tanks.filter { it != tank }.forEach { 
-			if (it.getTransformedShape().contains(getRx(x), getRy(y))) {
-				tank.score++
-				it.gotHit(tank)
-				tank.hit(it)
-				this.destroy()
-			}
-		}
+		game.tanks
+				.filter { it != tank }
+				.filter { it.getTransformedShape().contains(getRx(x), getRy(y)) }
+				.forEach { 
+					tank.score++
+					it.gotHit(tank)
+					tank.hit(it)
+					this.destroy() 
+				}
 		
 		// get tile that it will enter
 		ignore { game.level?.getTileAtTankCoords(nx, ny)?.onEnter(this) }
@@ -58,8 +59,8 @@ class Projectile(x: Double, y: Double, var velocity: Double, var angle: Double, 
 		
 	}
 	
-	private fun getRx(x: Double) = (getRenderX(x) * GAME_SCALE / 2)
-	private fun getRy(y: Double) = (getRenderY(y) - PROJECTILE_SIZE * GAME_SCALE / 2)
+	private fun getRx(x: Double) = (getRenderX(x))
+	private fun getRy(y: Double) = (getRenderY(y) - PROJECTILE_SIZE * GAME_SCALE)
 	private fun getRWidth() = 5 * GAME_SCALE
 	private fun getRHeight() = 5 * GAME_SCALE
 	

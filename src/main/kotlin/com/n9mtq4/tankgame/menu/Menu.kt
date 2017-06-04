@@ -22,9 +22,9 @@ import java.awt.font.FontRenderContext
 open class Menu(val menuManager: MenuManager) : KeyListener, MouseListener, MouseMotionListener {
 	
 	companion object {
-		val TITLE_FONT = Font(Font.SANS_SERIF, Font.BOLD, 80)
-		val OPTION_FONT = Font(Font.SANS_SERIF, Font.PLAIN, 50)
-		val SELECTED_OPTION_FONT = Font(Font.SANS_SERIF, Font.BOLD, 50)
+		val TITLE_FONT = Font(Font.SANS_SERIF, Font.BOLD, 40 * GAME_SCALE)
+		val OPTION_FONT = Font(Font.SANS_SERIF, Font.PLAIN, 25 * GAME_SCALE)
+		val SELECTED_OPTION_FONT = Font(Font.SANS_SERIF, Font.BOLD, 25 * GAME_SCALE)
 	}
 	
 	open fun draw(g: Graphics) {

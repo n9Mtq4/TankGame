@@ -16,7 +16,7 @@ import java.awt.Font.BOLD
 class GameClass : Canvas(), Runnable {
 	
 	companion object {
-		const val SCORE_MARGIN_TOP = 20
+		const val SCORE_MARGIN_TOP = 10 * GAME_SCALE
 	}
 	
 	var running = false

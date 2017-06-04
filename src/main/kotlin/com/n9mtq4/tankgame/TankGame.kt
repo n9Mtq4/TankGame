@@ -20,7 +20,7 @@ class Game {
 	
 	init {
 		
-		frame = JFrame("Game")
+		frame = JFrame("Will's Tank Game")
 		frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
 		
 		gameClass = GameClass()

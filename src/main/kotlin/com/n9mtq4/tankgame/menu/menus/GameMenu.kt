@@ -5,7 +5,6 @@ import com.n9mtq4.tankgame.GAME_HEIGHT
 import com.n9mtq4.tankgame.GAME_SCALE
 import com.n9mtq4.tankgame.GAME_WIDTH
 import com.n9mtq4.tankgame.GameClass
-import com.n9mtq4.tankgame.level.Level
 import com.n9mtq4.tankgame.SCORE_BACKGROUND_COLOR
 import com.n9mtq4.tankgame.SCORE_OFFSET
 import com.n9mtq4.tankgame.TEAM_ONE_COLOR
@@ -13,6 +12,7 @@ import com.n9mtq4.tankgame.TEAM_TWO_COLOR
 import com.n9mtq4.tankgame.entities.Tank
 import com.n9mtq4.tankgame.getHeight
 import com.n9mtq4.tankgame.getWidth
+import com.n9mtq4.tankgame.level.Level
 import com.n9mtq4.tankgame.level.loadLevel
 import com.n9mtq4.tankgame.menu.Menu
 import com.n9mtq4.tankgame.menu.MenuManager
@@ -28,8 +28,11 @@ import java.awt.event.KeyEvent
  */
 class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
-	var level = loadLevel(1, this)
+	companion object {
+		val SCORE_FONT = Font("Verdana", Font.BOLD, 100 * GAME_SCALE)
+	}
 	
+	var level = loadLevel(1, this)
 	
 	val tank1Controls = booleanArrayOf(false, false, false, false, false)
 	val tank2Controls = booleanArrayOf(false, false, false, false, false)
@@ -65,7 +68,7 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 		g.color = SCORE_BACKGROUND_COLOR
 		g.fillRect(0, 0, GAME_WIDTH * GAME_SCALE, SCORE_OFFSET * GAME_SCALE)
 		
-		g.font = Font("Verdana", Font.BOLD, 200)
+		g.font = SCORE_FONT
 		
 		val spacing = GAME_WIDTH * GAME_SCALE / 3
 		

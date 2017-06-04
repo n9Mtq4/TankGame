@@ -1,5 +1,6 @@
 package com.n9mtq4.tankgame.menu.menus
 
+import com.n9mtq4.tankgame.GAME_SCALE
 import com.n9mtq4.tankgame.getHeight
 import com.n9mtq4.tankgame.menu.Menu
 import com.n9mtq4.tankgame.menu.MenuManager
@@ -22,8 +23,8 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	companion object {
 		const val GAME_TITLE = "Will's Tank Game"
-		const val FONT_SPACING = 10
-		const val CHOICE_YOFFSET = 300
+		const val FONT_SPACING = 5 * GAME_SCALE
+		const val CHOICE_YOFFSET = 150 * GAME_SCALE
 	}
 	
 	var selectedOption = 0

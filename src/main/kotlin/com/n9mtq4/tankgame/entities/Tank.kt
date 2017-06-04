@@ -29,7 +29,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 	
 	companion object {
 		const val COOLDOWN_VALUE = 60
-		const val TANK_SCALE = 4.0
+		const val TANK_SCALE = GAME_SCALE * 2.0
 		val TANK_POLYGON = Polygon(intArrayOf(-6, -3, -3, -1, -1, 1, 1, 3, 3, 6, 6, 3, 3, -3, -3, -6),
 				intArrayOf(-4, -4, -2, -2, -6, -6, -2, -2, -4, -4, 4, 4, 2, 2, 4, 4), 16)
 	}
@@ -53,6 +53,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 		cooldown = COOLDOWN_VALUE
 		
 		// fire projectile
+		// TODO: do proper trig to get bullets to fire in the center of the gun
 		val projectile = Projectile(x, y - 1 * GAME_SCALE, PROJECTILE_SPEED, angle, game, this)
 		projectiles.add(projectile)
 		
@@ -129,11 +130,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 	private fun moveX(nx: Double) {
 		
 		if (nx in 0..GAME_WIDTH) {
-			game.level?.getTileAtTankCoords(nx, y)?.let {
-				if (!it.isSolid(this)) {
-					x = nx
-				}
-			}
+			game.level?.getTileAtTankCoords(nx, y)?.takeUnless { it.isSolid(this) }?.let { x = nx }
 		}
 		
 	}
@@ -141,11 +138,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 	private fun moveY(ny: Double) {
 		
 		if (ny in 0..GAME_HEIGHT - SCORE_OFFSET) {
-			game.level?.getTileAtTankCoords(x, ny)?.let {
-				if (!it.isSolid(this)) {
-					y = ny
-				}
-			}
+			game.level?.getTileAtTankCoords(x, ny)?.takeUnless { it.isSolid(this) }?.let { y = ny }
 		}
 		
 	}
