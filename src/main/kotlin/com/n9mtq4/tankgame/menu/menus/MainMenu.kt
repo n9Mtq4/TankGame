@@ -31,7 +31,7 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	val options = listOf(
 			MenuOption("Play Game", "Starts the game") { menuManager.startGame() },
-			MenuOption("Select Level", "Select a specific level") { menuManager.pushMenu(CreateLevelMenu(menuManager)) },
+			MenuOption("Select Level", "Select a specific level") { menuManager.pushMenu(LevelSelectMenu(menuManager)) },
 			MenuOption("Create Level", "Create your own level") { menuManager.pushMenu(CreateLevelMenu(menuManager)) },
 			MenuOption("Controls", "Shows the list of controls") { menuManager.pushMenu(ControlsMenu(menuManager)) }
 	)
