@@ -13,9 +13,9 @@ import java.awt.Graphics
 class ControlsMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	companion object {
-		const val FONT_SPACING = 10
-		const val FONT_X_OFFSET = 40
-		const val FONT_Y_OFFSET = 30
+		private const val FONT_SPACING = 10
+		private const val FONT_X_OFFSET = 40
+		private const val FONT_Y_OFFSET = 30
 	}
 	
 	val text = listOf("This is just a placeholder", "ESC to go back", "Team #1:", "WASD to move", "E to shoot", "Team #2:", "ARROWS to move", "?/ to shoot")

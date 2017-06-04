@@ -168,6 +168,23 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 	}
 	
+	private fun attemptGameStart() {
+		
+		// make sure there are two spawn points first
+		
+		val sp1 = level.getSpawnLocationForTeam(1)
+		val sp2 = level.getSpawnLocationForTeam(2)
+		if (sp1 != POINT2I_INVALID && sp2 != POINT2I_INVALID) {
+			// there are two spawn points, play the game
+			menuManager.startGame(level)
+		}else {
+			// there are not two spawn points, tell them to add some
+			menuManager.pushMenu(NoSpawnPointsMenu(menuManager))
+		}
+		
+		
+	}
+	
 	private fun decBrush() {
 		if (brushRadius > 0) brushRadius--
 	}
@@ -206,7 +223,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 			KeyEvent.VK_CLOSE_BRACKET -> incBrush()
 			KeyEvent.VK_1 -> setSpawn(1)
 			KeyEvent.VK_2 -> setSpawn(2)
-			KeyEvent.VK_ENTER -> menuManager.startGame(level)
+			KeyEvent.VK_ENTER -> attemptGameStart()
 		}
 	}
 	
