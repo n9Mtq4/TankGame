@@ -23,6 +23,8 @@ val BACKGROUND_COLOR: Color = Color.WHITE
 val BARRIER_COLOR: Color = Color.BLACK
 val TEAM_ONE_COLOR: Color = Color.RED
 val TEAM_TWO_COLOR: Color = Color.BLUE
+val TEAM_ONE_NAME = "Red"
+val TEAM_TWO_NAME = "Blue"
 
 val PROJECTILE_COLOR: Color = Color.BLACK
 
