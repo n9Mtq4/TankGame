@@ -69,7 +69,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		g.drawString("[ to decrease size, ] to increase size", 0, 2 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
 		g.drawString("Push 1 to set spawn for team 1", 0, 3 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
 		g.drawString("Push 2 to set spawn for team 2", 0, 4 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
-		g.drawString("Push ENTER to place", 0, 5 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
+		g.drawString("Push ENTER to play", 0, 5 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
 		
 	}
 	
