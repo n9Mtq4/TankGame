@@ -6,7 +6,11 @@ import com.n9mtq4.tankgame.GAME_HEIGHT
 import com.n9mtq4.tankgame.GAME_SCALE
 import com.n9mtq4.tankgame.GAME_WIDTH
 import com.n9mtq4.tankgame.SCORE_OFFSET
+import com.n9mtq4.tankgame.TEAM_ONE_COLOR
+import com.n9mtq4.tankgame.TEAM_TWO_COLOR
 import com.n9mtq4.tankgame.menu.menus.GameMenu
+import com.n9mtq4.tankgame.utils.POINT2I_INVALID
+import com.n9mtq4.tankgame.utils.Point2i
 import java.awt.Graphics
 
 /**
@@ -41,6 +45,20 @@ class Level(val width: Int, val height: Int, val game: GameMenu) {
 		
 	}
 	
+	fun drawSpawnLocations(g: Graphics) {
+		
+		// TODO: would be more efficient if this was in one filter
+		g.color = TEAM_ONE_COLOR
+		tiles.filter { it is Tile.SpawnTeam1Tile }.forEach {
+			g.fillRect(it.x * tileWidth, it.y * tileHeight + SCORE_OFFSET * GAME_SCALE, tileWidth, tileHeight)
+		}
+		g.color = TEAM_TWO_COLOR
+		tiles.filter { it is Tile.SpawnTeam2Tile }.forEach {
+			g.fillRect(it.x * tileWidth, it.y * tileHeight + SCORE_OFFSET * GAME_SCALE, tileWidth, tileHeight)
+		}
+		
+	}
+	
 	/**
 	 * Gets the tile at the desired coords
 	 * */
@@ -52,6 +70,16 @@ class Level(val width: Int, val height: Int, val game: GameMenu) {
 		
 		return ignoreAndNull { tiles[width * tileY.toInt() + tileX.toInt()] }
 		
+	}
+	
+	// TODO: very messy code
+	fun getSpawnLocationForTeam(team: Int): Point2i {
+		if (team == 1) {
+			tiles.filter { it is Tile.SpawnTeam1Tile }.firstOrNull()?.run { return Point2i(x, y) }
+		}else if (team == 2) {
+			tiles.filter { it is Tile.SpawnTeam2Tile }.firstOrNull()?.run { return Point2i(x, y) }
+		}
+		return POINT2I_INVALID
 	}
 	
 	operator fun get(x: Int, y: Int) = tiles[width * y + x]

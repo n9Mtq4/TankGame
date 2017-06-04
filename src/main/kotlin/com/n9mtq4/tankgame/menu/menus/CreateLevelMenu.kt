@@ -13,6 +13,8 @@ import com.n9mtq4.tankgame.level.Level
 import com.n9mtq4.tankgame.level.Tile
 import com.n9mtq4.tankgame.menu.Menu
 import com.n9mtq4.tankgame.menu.MenuManager
+import com.n9mtq4.tankgame.utils.POINT2I_INVALID
+import com.n9mtq4.tankgame.utils.Point2i
 import java.awt.Color
 import java.awt.Font
 import java.awt.Graphics
@@ -24,22 +26,20 @@ import java.awt.event.MouseEvent
  *
  * @author Will "n9Mtq4" Bresnahan
  */
-
-private typealias Point = Pair<Int, Int>
-
 class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	companion object {
 		val CONTROL_FONT = Font("Verdana", Font.BOLD, 10 * GAME_SCALE)
 		val CONTROL_FONT_SPACING = 2 * GAME_SCALE
-		val POINT_IDENTITY = Point(-1, -1)
 	}
 	
 	private var mousePressed = false
 	private var barrier = true
+	private var mx = 0
+	private var my = 0
 	
 	private var brushRadius = 0
-	private var lastDragPoint = POINT_IDENTITY
+	private var lastDragPoint = POINT2I_INVALID
 	
 	private var level = Level(LEVEL_WIDTH, LEVEL_HEIGHT, menuManager.gameMenu)
 	
@@ -49,6 +49,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 		// have to draw the currently created level
 		level.draw(g)
+		level.drawSpawnLocations(g)
 		
 		// score card
 		g.color = SCORE_BACKGROUND_COLOR
@@ -63,6 +64,9 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		val height1 = g.font.getHeight("ABCDEFG", g.frc)
 		g.drawString("Brush Radius: $brushRadius", 0, height1 + GameClass.SCORE_MARGIN_TOP)
 		g.drawString("[ to decrease size, ] to increase size", 0, 2 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
+		g.drawString("Push 1 to set spawn for team 1", 0, 3 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
+		g.drawString("Push 2 to set spawn for team 2", 0, 4 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
+		g.drawString("Push ENTER to place", 0, 5 * (height1 + CONTROL_FONT_SPACING) + GameClass.SCORE_MARGIN_TOP)
 		
 	}
 	
@@ -84,21 +88,21 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	private fun onDrag(x: Int, y: Int) {
 		
-		if (lastDragPoint != POINT_IDENTITY) {
+		if (lastDragPoint != POINT2I_INVALID) {
 			
 			// ok, since the drag doesn't update fast enough, lets do a linear raycast to the new point from the old one
 			
 			// TODO: this raycasting has an issue with raycasting vertically; it skips some
 			
 			// get the angle
-			val angle = Math.atan2(y - lastDragPoint.second.toDouble(), x - lastDragPoint.first.toDouble())
+			val angle = Math.atan2(y - lastDragPoint.y.toDouble(), x - lastDragPoint.x.toDouble())
 			// get the deltas to add on each iteration
 			val dx = 1 * Math.cos(angle)
 			val dy = 1 * Math.sin(angle)
 			
 			// start at last point
-			var cx = lastDragPoint.first.toDouble()
-			var cy = lastDragPoint.second.toDouble()
+			var cx = lastDragPoint.x.toDouble()
+			var cy = lastDragPoint.y.toDouble()
 			
 			// go until (cx, cy) is within range of (x, y)
 			// can't use equal cause rounding issues
@@ -118,7 +122,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		// do the one the brush is currently on
 		toggleLevelBarrierWindowPos(x, y)
 		// this is now the last drag point
-		lastDragPoint = Point(x, y)
+		lastDragPoint = Point2i(x, y)
 		
 	}
 	
@@ -129,26 +133,38 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 			else level[levelX, levelY] = Tile.OpenTile(levelX, levelY, menuManager.gameMenu)
 		}
 		
-/*		val levelX = level.aGetRenderX(x.toDouble()).toInt()
-		val levelY = level.aGetRenderY(y.toDouble()).toInt()
-		
-		if (barrier) level[levelX, levelY] = Tile.ClosedTile(levelX, levelY, menuManager.gameMenu)
-		else level[levelX, levelY] = Tile.OpenTile(levelX, levelY, menuManager.gameMenu)*/
-		
 	}
 	
-	private fun getAllPointsInBrushFromMouse(x: Int, y: Int): List<Point> {
+	private fun getAllPointsInBrushFromMouse(x: Int, y: Int): List<Point2i> {
 		
-		val pList = mutableListOf<Point>()
+		val pList = mutableListOf<Point2i>()
 		
 		// get reference point
 		val levelX = level.aGetRenderX(x.toDouble()).toInt()
 		val levelY = level.aGetRenderY(y.toDouble()).toInt()
 		
 		// add a square with this level points
-		for (by in -brushRadius..brushRadius) (-brushRadius..brushRadius).mapTo(pList) { bx -> Point(bx + levelX, by + levelY) }
+		for (by in -brushRadius..brushRadius) (-brushRadius..brushRadius).mapTo(pList) { bx -> Point2i(bx + levelX, by + levelY) }
 		
-		return pList
+		return pList.filter { it.x in 0..level.width - 1 && it.y in 0..level.height }
+		
+	}
+	
+	// TODO: messy code
+	private fun setSpawn(team: Int) {
+		
+		// search for a already set spawn
+		
+		val currentLocation = level.getSpawnLocationForTeam(team)
+		
+		currentLocation.takeUnless { it == POINT2I_INVALID }?.run { 
+			level[x, y] = Tile.OpenTile(x, y, menuManager.gameMenu)
+		}
+		
+		val levelX = level.aGetRenderX(mx.toDouble()).toInt()
+		val levelY = level.aGetRenderY(my.toDouble()).toInt()
+		
+		level[levelX, levelY] = if (team == 1) Tile.SpawnTeam1Tile(levelX, levelY, menuManager.gameMenu) else Tile.SpawnTeam2Tile(levelX, levelY, menuManager.gameMenu)
 		
 	}
 	
@@ -170,7 +186,14 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	override fun mouseReleased(e: MouseEvent?) {
 		mousePressed = false
-		lastDragPoint = POINT_IDENTITY
+		lastDragPoint = POINT2I_INVALID
+	}
+	
+	override fun mouseMoved(e: MouseEvent?) {
+		e?.let {
+			this.mx = it.x
+			this.my = it.y
+		}
 	}
 	
 	override fun mouseDragged(e: MouseEvent?) {
@@ -181,6 +204,9 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		when (e?.keyCode) {
 			KeyEvent.VK_OPEN_BRACKET -> decBrush()
 			KeyEvent.VK_CLOSE_BRACKET -> incBrush()
+			KeyEvent.VK_1 -> setSpawn(1)
+			KeyEvent.VK_2 -> setSpawn(2)
+			KeyEvent.VK_ENTER -> menuManager.startGame(level)
 		}
 	}
 	
