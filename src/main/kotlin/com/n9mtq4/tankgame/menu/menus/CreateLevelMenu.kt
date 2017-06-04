@@ -23,16 +23,22 @@ import java.awt.event.MouseEvent
  *
  * @author Will "n9Mtq4" Bresnahan
  */
+
+typealias Point = Pair<Int, Int>
+
 class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	companion object {
 		const val SCORE_PLACEHOLDER = "SCORE"
+		val PLACEHOLDER_FONT = Font("Verdana", Font.BOLD, 100 * GAME_SCALE)
+		val POINT_IDENTITY = Point(-1, -1)
 	}
 	
 	private var mousePressed = false
 	private var barrier = true
 	
 	private var brushSize = 1
+	private var lastDragPoint = POINT_IDENTITY
 	
 	private var level = Level(LEVEL_WIDTH, LEVEL_HEIGHT, menuManager.gameMenu)
 	
@@ -48,7 +54,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		g.fillRect(0, 0, GAME_WIDTH * GAME_SCALE, SCORE_OFFSET * GAME_SCALE)
 		
 		g.color = Color.BLACK
-		g.font = Font("Verdana", Font.BOLD, 200)
+		g.font = PLACEHOLDER_FONT
 		
 		val height1 = g.font.getHeight(SCORE_PLACEHOLDER, g.frc)
 		g.drawString(SCORE_PLACEHOLDER, calcCenter(SCORE_PLACEHOLDER, g.font, g.frc), height1 + GameClass.SCORE_MARGIN_TOP)
@@ -68,6 +74,46 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 		val tile = level[levelX, levelY]
 		barrier = tile is Tile.OpenTile
+		
+	}
+	
+	fun onDrag(x: Int, y: Int) {
+		
+		if (lastDragPoint != POINT_IDENTITY) {
+			
+			// ok, since the drag doesn't update fast enough, lets do a linear raycast to the new point from the old one
+			
+			// TODO: this raycasting has an issue with raycasting vertically; it skips some
+			
+			// get the angle
+			val angle = Math.atan2(y - lastDragPoint.second.toDouble(), x - lastDragPoint.first.toDouble())
+			// get the deltas to add on each iteration
+			val dx = 1 * Math.cos(angle)
+			val dy = 1 * Math.sin(angle)
+			
+			// start at last point
+			var cx = lastDragPoint.first.toDouble()
+			var cy = lastDragPoint.second.toDouble()
+			
+			// go until (cx, cy) is within range of (x, y)
+			// can't use equal cause rounding issues
+			while (Math.abs(cx - x) !in 0..1 && Math.abs(cy - y) !in 0..1) {
+				
+				// update (cx, cy)
+				toggleLevelBarrierWindowPos(cx.toInt(), cy.toInt()) // TODO: should use rounding
+				
+				// increment (cx, cy)
+				cx += dx
+				cy += dy
+				
+			}
+			
+		}
+		
+		// do the one the brush is currently on
+		toggleLevelBarrierWindowPos(x, y)
+		// this is now the last drag point
+		lastDragPoint = Point(x, y)
 		
 	}
 	
@@ -91,10 +137,11 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	override fun mouseReleased(e: MouseEvent?) {
 		mousePressed = false
+		lastDragPoint = POINT_IDENTITY
 	}
 	
 	override fun mouseDragged(e: MouseEvent?) {
-		e?.let { toggleLevelBarrierWindowPos(it.x, it.y) }
+		e?.let { onDrag(it.x, it.y) }
 	}
 	
 }
