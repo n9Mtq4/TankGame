@@ -1,5 +1,6 @@
 package com.n9mtq4.tankgame.menu.menus
 
+import com.n9mtq4.tankgame.GAME_HEIGHT
 import com.n9mtq4.tankgame.GAME_SCALE
 import com.n9mtq4.tankgame.getHeight
 import com.n9mtq4.tankgame.menu.Menu
@@ -27,13 +28,14 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		const val CHOICE_YOFFSET = 150 * GAME_SCALE
 	}
 	
-	var selectedOption = 0
+	var selectedIndex = 0
 	
 	val options = listOf(
 			MenuOption("Play Game", "Starts the game") { menuManager.startGame() },
 			MenuOption("Select Level", "Select a specific level") { menuManager.pushMenu(LevelSelectMenu(menuManager)) },
 			MenuOption("Create Level", "Create your own level") { menuManager.pushMenu(CreateLevelMenu(menuManager)) },
-			MenuOption("Controls", "Shows the list of controls") { menuManager.pushMenu(ControlsMenu(menuManager)) }
+			MenuOption("Controls", "Shows the list of controls") { menuManager.pushMenu(ControlsMenu(menuManager)) },
+			MenuOption("Exit Game", "Closes the game") { System.exit(0) }
 	)
 	
 	override fun draw(g: Graphics) {
@@ -51,12 +53,18 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 			
 			val text = option.optionName
 			
-			if (selectedOption == index) g.font = SELECTED_OPTION_FONT
-			else g.font = OPTION_FONT
+			g.font = if (selectedIndex == index) SELECTED_OPTION_FONT else OPTION_FONT
 			
 			g.drawString(text, calcCenter(text, g.font, g.frc), (g.font.getHeight(text, g.frc) + FONT_SPACING) * index + CHOICE_YOFFSET)
 			
 		}
+		
+		// show description
+		g.font = OPTION_FONT
+		val selectedOption = options[selectedIndex]
+		val selectedOptionText = selectedOption.description
+		val descHeight = g.font.getHeight(selectedOptionText, g.frc)
+		g.drawString(selectedOptionText, 0, GAME_HEIGHT * GAME_SCALE - FONT_SPACING)
 		
 	}
 	
@@ -64,17 +72,17 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		// no super, since shouldn't be able to pop the main menu
 		when (e?.keyCode) {
 			VK_DOWN, VK_S -> {
-				selectedOption++
-				if (selectedOption <= -1) selectedOption = options.size - 1
-				selectedOption %= options.size
+				selectedIndex++
+				if (selectedIndex <= -1) selectedIndex = options.size - 1
+				selectedIndex %= options.size
 			}
 			VK_UP, VK_W -> {
-				selectedOption--
-				if (selectedOption <= -1) selectedOption = options.size - 1
-				selectedOption %= options.size
+				selectedIndex--
+				if (selectedIndex <= -1) selectedIndex = options.size - 1
+				selectedIndex %= options.size
 			}
 			VK_ENTER, VK_E -> {
-				options[selectedOption].callback()
+				options[selectedIndex].callback()
 			}
 		}
 	}
