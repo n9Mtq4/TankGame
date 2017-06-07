@@ -9,6 +9,7 @@ import com.n9mtq4.tankgame.SCORE_OFFSET
 import com.n9mtq4.tankgame.TANK_BACKWARD_SPEED
 import com.n9mtq4.tankgame.TANK_FORWARD_SPEED
 import com.n9mtq4.tankgame.TANK_TURN_SPEED
+import com.n9mtq4.tankgame.WINNING_SCORE
 import com.n9mtq4.tankgame.menu.menus.GameMenu
 import java.awt.Color
 import java.awt.Graphics
@@ -43,6 +44,9 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 	val transform = AffineTransform()
 	
 	val projectiles = ArrayList<Projectile>()
+	
+	val hasWon: Boolean
+		get() = score >= WINNING_SCORE
 	
 	fun fire() {
 		
@@ -155,6 +159,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 		score = 0
 		cooldown = 0
 		angle = originalAngle
+		for (i in 0..keyControls.size - 1) keyControls[i] = false
 	}
 	
 	fun getTransformedShape(): Shape {

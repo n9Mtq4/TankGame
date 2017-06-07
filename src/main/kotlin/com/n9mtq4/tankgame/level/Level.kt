@@ -26,9 +26,11 @@ class Level(val width: Int, val height: Int, val game: GameMenu) {
 	val tileHeight = (GAME_HEIGHT - SCORE_OFFSET) * GAME_SCALE / height
 	
 	var firstTime = true
+	var inLevelCreator = false
 	
-	fun reset() {
+	fun reset(inLevelCreator: Boolean = false) {
 		this.firstTime = true
+		this.inLevelCreator = inLevelCreator
 	}
 	
 	fun tick() {

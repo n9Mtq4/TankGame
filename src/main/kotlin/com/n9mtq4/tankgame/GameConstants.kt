@@ -17,6 +17,7 @@ const val DEBUG = true
 
 const val LEVEL_WIDTH = 50
 const val LEVEL_HEIGHT = 50
+const val WINNING_SCORE = 5
 
 val SCORE_BACKGROUND_COLOR: Color = Color.CYAN
 val BACKGROUND_COLOR: Color = Color.WHITE

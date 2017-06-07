@@ -63,7 +63,6 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		g.font = OPTION_FONT
 		val selectedOption = options[selectedIndex]
 		val selectedOptionText = selectedOption.description
-		val descHeight = g.font.getHeight(selectedOptionText, g.frc)
 		g.drawString(selectedOptionText, 0, GAME_HEIGHT * GAME_SCALE - FONT_SPACING)
 		
 	}

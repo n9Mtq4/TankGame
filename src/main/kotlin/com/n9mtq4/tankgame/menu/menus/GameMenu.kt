@@ -8,7 +8,9 @@ import com.n9mtq4.tankgame.GameClass
 import com.n9mtq4.tankgame.SCORE_BACKGROUND_COLOR
 import com.n9mtq4.tankgame.SCORE_OFFSET
 import com.n9mtq4.tankgame.TEAM_ONE_COLOR
+import com.n9mtq4.tankgame.TEAM_ONE_NAME
 import com.n9mtq4.tankgame.TEAM_TWO_COLOR
+import com.n9mtq4.tankgame.TEAM_TWO_NAME
 import com.n9mtq4.tankgame.entities.Tank
 import com.n9mtq4.tankgame.getHeight
 import com.n9mtq4.tankgame.getWidth
@@ -44,6 +46,7 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 	fun reset(level: Level) {
 		tanks.forEach { it.reset() }
 		this.level = level
+		level.reset()
 	}
 	
 	override fun draw(g: Graphics) {
@@ -90,6 +93,20 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 		level?.tick()
 		tanks.forEach { it.tick() }
+		
+		// check for win condition
+		level?.takeUnless { it.inLevelCreator }?.let {
+			if (tank1.hasWon && tank2.hasWon) {
+				menuManager.popMenu(this)
+				menuManager.pushMenu(TieMenu(menuManager))
+			}else if (tank1.hasWon) {
+				menuManager.popMenu(this)
+				menuManager.pushMenu(WinMenu(TEAM_ONE_NAME, TEAM_ONE_COLOR, menuManager))
+			}else if (tank2.hasWon) {
+				menuManager.popMenu(this)
+				menuManager.pushMenu(WinMenu(TEAM_TWO_NAME, TEAM_TWO_COLOR, menuManager))
+			}
+		}
 		
 	}
 	
