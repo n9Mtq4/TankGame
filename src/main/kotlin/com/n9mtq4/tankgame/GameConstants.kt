@@ -14,6 +14,7 @@ const val GAME_HEIGHT = 500
 const val SCORE_OFFSET = 100
 const val GAME_SCALE = 2
 const val DEBUG = true
+const val ANTIALIASING = true
 
 const val LEVEL_WIDTH = 50
 const val LEVEL_HEIGHT = 50
