@@ -1,14 +1,7 @@
 package com.n9mtq4.tankgame.menu.menus
 
 import com.n9mtq4.kotlin.extlib.ignore
-import com.n9mtq4.tankgame.GAME_SCALE
-import com.n9mtq4.tankgame.GAME_WIDTH
-import com.n9mtq4.tankgame.GameClass
-import com.n9mtq4.tankgame.LEVEL_HEIGHT
-import com.n9mtq4.tankgame.LEVEL_WIDTH
-import com.n9mtq4.tankgame.SCORE_BACKGROUND_COLOR
-import com.n9mtq4.tankgame.SCORE_OFFSET
-import com.n9mtq4.tankgame.getHeight
+import com.n9mtq4.tankgame.*
 import com.n9mtq4.tankgame.level.Level
 import com.n9mtq4.tankgame.level.Tile
 import com.n9mtq4.tankgame.menu.Menu
@@ -53,8 +46,8 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 		// draw brush
 		g.color = Color.DARK_GRAY
-		val bwidth = brushRadius * level.tileWidth * GAME_SCALE + (level.tileWidth / 2)
-		val bheight = brushRadius * level.tileHeight * GAME_SCALE + (level.tileHeight / 2)
+		val bwidth = (brushRadius * level.tileWidth + (level.tileWidth / 2)) * 2 // don't know why two instead of game scale, but it seems to work
+		val bheight = (brushRadius * level.tileHeight + (level.tileHeight / 2)) * 2
 		g.drawRect(mx - bwidth / 2, my - bheight / 2, bwidth, bheight)
 		
 		// score card
