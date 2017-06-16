@@ -8,12 +8,8 @@ import com.n9mtq4.tankgame.menu.MenuManager
 import com.n9mtq4.tankgame.menu.MenuOption
 import java.awt.Graphics
 import java.awt.event.KeyEvent
-import java.awt.event.KeyEvent.VK_DOWN
-import java.awt.event.KeyEvent.VK_E
-import java.awt.event.KeyEvent.VK_ENTER
-import java.awt.event.KeyEvent.VK_S
-import java.awt.event.KeyEvent.VK_UP
-import java.awt.event.KeyEvent.VK_W
+import java.awt.event.KeyEvent.*
+import java.awt.event.MouseEvent
 
 /**
  * Created by will on 5/29/17 at 7:54 PM.
@@ -27,6 +23,8 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		const val FONT_SPACING = 5 * GAME_SCALE
 		const val CHOICE_YOFFSET = 150 * GAME_SCALE
 	}
+	
+	var updateOptionBounds = true
 	
 	var selectedIndex = 0
 	
@@ -55,9 +53,17 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 			
 			g.font = if (selectedIndex == index) SELECTED_OPTION_FONT else OPTION_FONT
 			
-			g.drawString(text, calcCenter(text, g.font, g.frc), (g.font.getHeight(text, g.frc) + FONT_SPACING) * index + CHOICE_YOFFSET)
+			val fontCenterX = calcCenter(text, g.font, g.frc)
+			val fontHeight = g.font.getHeight(text, g.frc)
+			val fontYPos = (fontHeight + FONT_SPACING) * index + CHOICE_YOFFSET
+			
+			if (updateOptionBounds) option.calcRenderBounds(fontCenterX, fontYPos - fontHeight, g.frc, g.font)
+			
+			g.drawString(text, fontCenterX, fontYPos)
 			
 		}
+		
+		if (updateOptionBounds) updateOptionBounds = false
 		
 		// show description
 		g.font = OPTION_FONT
@@ -84,6 +90,34 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 				options[selectedIndex].callback()
 			}
 		}
+	}
+	
+	private fun menuSelectFromClick() = options[selectedIndex].callback()
+	
+	private fun setSelectedOptionFromMouse(x: Int, y: Int) {
+		
+		options.map { it.renderBounds }.filterNotNull().forEachIndexed { index, bounds ->
+			if (bounds.contains(x, y)) selectedIndex = index
+		}
+		
+	}
+	
+	override fun mouseClicked(e: MouseEvent?) {
+		
+		super.mouseClicked(e)
+		
+		e?.let { menuSelectFromClick() }
+		
+	}
+	
+	override fun mouseMoved(e: MouseEvent?) {
+		
+		super.mouseMoved(e)
+		
+		e?.let {
+			setSelectedOptionFromMouse(it.x, it.y)
+		}
+		
 	}
 	
 }
