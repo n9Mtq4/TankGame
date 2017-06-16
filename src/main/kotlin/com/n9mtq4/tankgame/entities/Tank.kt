@@ -1,21 +1,8 @@
 package com.n9mtq4.tankgame.entities
 
-import com.n9mtq4.tankgame.GAME_HEIGHT
-import com.n9mtq4.tankgame.GAME_SCALE
-import com.n9mtq4.tankgame.GAME_WIDTH
-import com.n9mtq4.tankgame.PROJECTILE_COLOR
-import com.n9mtq4.tankgame.PROJECTILE_SPEED
-import com.n9mtq4.tankgame.SCORE_OFFSET
-import com.n9mtq4.tankgame.TANK_BACKWARD_SPEED
-import com.n9mtq4.tankgame.TANK_FORWARD_SPEED
-import com.n9mtq4.tankgame.TANK_TURN_SPEED
-import com.n9mtq4.tankgame.WINNING_SCORE
+import com.n9mtq4.tankgame.*
 import com.n9mtq4.tankgame.menu.menus.GameMenu
-import java.awt.Color
-import java.awt.Graphics
-import java.awt.Graphics2D
-import java.awt.Polygon
-import java.awt.Shape
+import java.awt.*
 import java.awt.geom.AffineTransform
 import java.awt.geom.GeneralPath
 import java.awt.geom.Path2D
@@ -29,7 +16,7 @@ import java.awt.geom.Path2D
 class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyControls: BooleanArray, game: GameMenu) : Entity(x, y, game) {
 	
 	companion object {
-		const val COOLDOWN_VALUE = 60
+		const val COOLDOWN_VALUE = 60 / GAME_SPEED // keep cooldown set to 60 seconds no matter what tick speed we are running at
 		const val TANK_SCALE = GAME_SCALE * 2.0
 		val TANK_POLYGON = Polygon(intArrayOf(-6, -3, -3, -1, -1, 1, 1, 3, 3, 6, 6, 3, 3, -3, -3, -6),
 				intArrayOf(-4, -4, -2, -2, -6, -6, -2, -2, -4, -4, 4, 4, 2, 2, 4, 4), 16)
@@ -54,7 +41,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 		if (cooldown > 0) return
 		
 		// set cooldown
-		cooldown = COOLDOWN_VALUE
+		cooldown = COOLDOWN_VALUE.toInt()
 		
 		// fire projectile
 		// TODO: do proper trig to get bullets to fire in the center of the gun

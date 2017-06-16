@@ -87,7 +87,7 @@ class GameClass : Canvas(), Runnable {
 		var frames = 0
 		var unprocessedSeconds = 0.0
 		var previousTime = System.nanoTime()
-		val clockSpeed = 1 / GAME_SPEED
+		val clockSpeed = 1 / TICKS_PER_SECOND
 		var tickCount = 0
 		var ticked = false
 		
@@ -108,7 +108,7 @@ class GameClass : Canvas(), Runnable {
 				unprocessedSeconds -= clockSpeed
 				ticked = true
 				tickCount++
-				if (tickCount % GAME_SPEED.toInt() == 0) {
+				if (tickCount % TICKS_PER_SECOND.toInt() == 0) {
 					
 					println(tickCount.toString() + " ups, " + frames + " fps")
 					previousTime += 1000
@@ -131,7 +131,7 @@ class GameClass : Canvas(), Runnable {
 			if (!FPS_CAP) {
 				render()
 				frames++
-			}else Thread.sleep(1000 / (GAME_SPEED.toLong() + passedTime)) // sleep thread for required time, based off how long the last cycle took
+			}else Thread.sleep(1000 / (TICKS_PER_SECOND.toLong() + passedTime)) // sleep thread for required time, based off how long the last cycle took
 			
 		}
 		

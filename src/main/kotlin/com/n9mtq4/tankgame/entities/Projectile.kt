@@ -16,7 +16,7 @@ import java.awt.Graphics
 class Projectile(x: Double, y: Double, var velocity: Double, var angle: Double, game: GameMenu, val tank: Tank) : Entity(x, y, game) {
 	
 	companion object {
-		const val PROJECTILE_SIZE = 5
+		const val PROJECTILE_SIZE = 2 * GAME_SCALE
 	}
 	
 	val yd = velocity * Math.sin(Math.toRadians(angle))

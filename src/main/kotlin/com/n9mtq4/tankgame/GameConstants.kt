@@ -8,7 +8,8 @@ import java.awt.Color
  * @author Will "n9Mtq4" Bresnahan
  */
 const val FPS_CAP = true
-const val GAME_SPEED = 60.0
+const val TICKS_PER_SECOND = 60.0 // set this to the desired fps and tick rate. current is 60Hz. Best if it equals monitor refresh rate
+const val GAME_SPEED = 60.0 / TICKS_PER_SECOND // speeds are designed with 60 ups, so this will set the speeds correct if ups changes
 const val GAME_WIDTH = 400
 const val GAME_HEIGHT = 500
 const val SCORE_OFFSET = 100
@@ -30,7 +31,7 @@ val TEAM_TWO_NAME = "Blue"
 
 val PROJECTILE_COLOR: Color = Color.BLACK
 
-const val TANK_FORWARD_SPEED = 1.2
+const val TANK_FORWARD_SPEED = 1.2 * GAME_SPEED
 const val TANK_BACKWARD_SPEED = TANK_FORWARD_SPEED
-const val TANK_TURN_SPEED = 2.0
-const val PROJECTILE_SPEED = 3.0
+const val TANK_TURN_SPEED = 2.0 * GAME_SPEED
+const val PROJECTILE_SPEED = 3.0 * GAME_SPEED
