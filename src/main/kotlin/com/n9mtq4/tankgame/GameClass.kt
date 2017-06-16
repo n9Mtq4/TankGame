@@ -131,7 +131,7 @@ class GameClass : Canvas(), Runnable {
 			if (!FPS_CAP) {
 				render()
 				frames++
-			}
+			}else Thread.sleep(1000 / (GAME_SPEED.toLong() + passedTime)) // sleep thread for required time, based off how long the last cycle took
 			
 		}
 		
