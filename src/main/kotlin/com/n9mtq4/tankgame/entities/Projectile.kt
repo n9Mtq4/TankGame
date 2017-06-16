@@ -40,7 +40,7 @@ class Projectile(x: Double, y: Double, var velocity: Double, var angle: Double, 
 					tank.score++
 					it.gotHit(tank)
 					tank.hit(it)
-					this.destroy() 
+					this.destroy()
 				}
 		
 		// get tile that it will enter
