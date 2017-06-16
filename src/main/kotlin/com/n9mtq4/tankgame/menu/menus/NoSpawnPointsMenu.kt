@@ -23,7 +23,7 @@ class NoSpawnPointsMenu(menuManager: MenuManager) : Menu(menuManager) {
 	}
 	
 	val text = listOf(
-			"There are no spawn points set!",
+			"There is at least one spawn point missing!",
 			"In the level creator:",
 			"Push 1 to set the spawn for team 1",
 			"Push 2  to set the spawn for team 2",
