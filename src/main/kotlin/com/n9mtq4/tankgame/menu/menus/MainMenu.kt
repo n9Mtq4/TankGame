@@ -86,13 +86,11 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 				if (selectedIndex <= -1) selectedIndex = options.size - 1
 				selectedIndex %= options.size
 			}
-			VK_ENTER, VK_E -> {
-				options[selectedIndex].callback()
-			}
+			VK_ENTER, VK_E -> runMenuOption()
 		}
 	}
 	
-	private fun menuSelectFromClick() = options[selectedIndex].callback()
+	private fun runMenuOption() = options[selectedIndex].callback()
 	
 	private fun setSelectedOptionFromMouse(x: Int, y: Int) {
 		
@@ -106,7 +104,7 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 		super.mouseClicked(e)
 		
-		e?.let { menuSelectFromClick() }
+		e?.let { runMenuOption() }
 		
 	}
 	
