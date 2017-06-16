@@ -1,13 +1,7 @@
 package com.n9mtq4.tankgame.level
 
 import com.n9mtq4.kotlin.extlib.ignoreAndNull
-import com.n9mtq4.tankgame.BARRIER_COLOR
-import com.n9mtq4.tankgame.GAME_HEIGHT
-import com.n9mtq4.tankgame.GAME_SCALE
-import com.n9mtq4.tankgame.GAME_WIDTH
-import com.n9mtq4.tankgame.SCORE_OFFSET
-import com.n9mtq4.tankgame.TEAM_ONE_COLOR
-import com.n9mtq4.tankgame.TEAM_TWO_COLOR
+import com.n9mtq4.tankgame.*
 import com.n9mtq4.tankgame.menu.menus.GameMenu
 import com.n9mtq4.tankgame.utils.POINT2I_INVALID
 import com.n9mtq4.tankgame.utils.Point2i
@@ -28,9 +22,8 @@ class Level(val width: Int, val height: Int, val game: GameMenu) {
 	var firstTime = true
 	var inLevelCreator = false
 	
-	fun reset(inLevelCreator: Boolean = false) {
+	fun reset() {
 		this.firstTime = true
-		this.inLevelCreator = inLevelCreator
 	}
 	
 	fun tick() {

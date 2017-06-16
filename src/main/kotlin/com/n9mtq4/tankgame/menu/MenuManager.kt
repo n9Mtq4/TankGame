@@ -6,13 +6,9 @@ import com.n9mtq4.tankgame.level.loadLevel
 import com.n9mtq4.tankgame.menu.menus.GameMenu
 import com.n9mtq4.tankgame.menu.menus.MainMenu
 import java.awt.Graphics
-import java.awt.event.KeyEvent
-import java.awt.event.KeyListener
-import java.awt.event.MouseEvent
-import java.awt.event.MouseListener
-import java.awt.event.MouseMotionListener
+import java.awt.event.*
 import java.lang.IllegalStateException
-import java.util.Stack
+import java.util.*
 
 /**
  * Created by will on 5/29/17 at 7:02 PM.

@@ -1,19 +1,7 @@
 package com.n9mtq4.tankgame.menu.menus
 
-import com.n9mtq4.tankgame.BACKGROUND_COLOR
-import com.n9mtq4.tankgame.GAME_HEIGHT
-import com.n9mtq4.tankgame.GAME_SCALE
-import com.n9mtq4.tankgame.GAME_WIDTH
-import com.n9mtq4.tankgame.GameClass
-import com.n9mtq4.tankgame.SCORE_BACKGROUND_COLOR
-import com.n9mtq4.tankgame.SCORE_OFFSET
-import com.n9mtq4.tankgame.TEAM_ONE_COLOR
-import com.n9mtq4.tankgame.TEAM_ONE_NAME
-import com.n9mtq4.tankgame.TEAM_TWO_COLOR
-import com.n9mtq4.tankgame.TEAM_TWO_NAME
+import com.n9mtq4.tankgame.*
 import com.n9mtq4.tankgame.entities.Tank
-import com.n9mtq4.tankgame.getHeight
-import com.n9mtq4.tankgame.getWidth
 import com.n9mtq4.tankgame.level.Level
 import com.n9mtq4.tankgame.level.loadLevel
 import com.n9mtq4.tankgame.menu.Menu
