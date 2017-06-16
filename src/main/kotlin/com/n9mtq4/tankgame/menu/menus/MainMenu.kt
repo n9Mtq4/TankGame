@@ -92,19 +92,25 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	private fun runMenuOption() = options[selectedIndex].callback()
 	
+	/**
+	 * Search the option list to find a possible menu option that the mouse is hovering over.
+	 * */
+	private fun getSelectedOptionFromMouse(x: Int, y: Int) = options.filter { it.renderBounds?.contains(x, y) ?: false }.firstOrNull()
+	
 	private fun setSelectedOptionFromMouse(x: Int, y: Int) {
-		
-		options.map { it.renderBounds }.filterNotNull().forEachIndexed { index, bounds ->
-			if (bounds.contains(x, y)) selectedIndex = index
-		}
-		
+		getSelectedOptionFromMouse(x, y)?.let { this.selectedIndex = options.indexOf(it) }
 	}
 	
 	override fun mouseClicked(e: MouseEvent?) {
 		
 		super.mouseClicked(e)
 		
-		e?.let { runMenuOption() }
+		e?.let { event ->
+			getSelectedOptionFromMouse(event.x, event.y)?.let { option ->
+				// only run the menu option if the mouse is clicked over a menu option
+				runMenuOption()
+			}
+		}
 		
 	}
 	
