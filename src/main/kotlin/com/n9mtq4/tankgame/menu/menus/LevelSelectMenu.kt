@@ -120,9 +120,9 @@ class LevelSelectMenu(menuManager: MenuManager) : Menu(menuManager) {
 		if (y < 0) y = NUM_ROWS
 		y %= NUM_ROWS
 		
-		val canidateIndex = x + y * NUM_ROWS
+		val candidateIndex = x + y * NUM_ROWS
 		
-		if (canidateIndex in 0..levelThumbnails.size - 1) selectedLevel = x + y * NUM_ROWS
+		if (candidateIndex in 0..levelThumbnails.size - 1) selectedLevel = x + y * NUM_ROWS
 		
 	}
 	
