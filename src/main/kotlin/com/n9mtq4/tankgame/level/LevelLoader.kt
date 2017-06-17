@@ -2,6 +2,7 @@ package com.n9mtq4.tankgame.level
 
 import com.n9mtq4.kotlin.extlib.ignoreAndNull
 import com.n9mtq4.tankgame.menu.menus.GameMenu
+import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 
 /**
@@ -9,6 +10,25 @@ import javax.imageio.ImageIO
  *
  * @author Will "n9Mtq4" Bresnahan
  */
+
+fun levelExists(num: Int): Boolean {
+	
+	val path = toPath(num)
+	
+	object {}.javaClass.getResourceAsStream(path)?.use { return true }
+	return false
+	
+}
+
+fun levelThumbNail(num: Int): BufferedImage {
+	
+	val path = toPath(num)
+	
+	val inStream = object {}.javaClass.getResourceAsStream(path)
+	
+	return ImageIO.read(inStream)
+	
+}
 
 fun loadLevel(num: Int, game: GameMenu) = ignoreAndNull<Level> { 
 	
