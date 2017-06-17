@@ -35,7 +35,7 @@ class GameClass : Canvas(), Runnable {
 	fun start() {
 		if (running) return
 		this.running = true
-		thread = Thread(this)
+		thread = Thread(this, "Game Tick and Render Thread")
 		thread.start()
 	}
 	

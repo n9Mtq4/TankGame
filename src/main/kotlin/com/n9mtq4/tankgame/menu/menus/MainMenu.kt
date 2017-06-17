@@ -106,7 +106,7 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		super.mouseClicked(e)
 		
 		e?.let { event ->
-			getSelectedOptionFromMouse(event.x, event.y)?.let { option ->
+			getSelectedOptionFromMouse(event.x, event.y)?.let { _ ->
 				// only run the menu option if the mouse is clicked over a menu option
 				runMenuOption()
 			}
