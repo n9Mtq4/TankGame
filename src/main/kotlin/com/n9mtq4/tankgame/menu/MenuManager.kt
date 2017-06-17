@@ -45,7 +45,7 @@ class MenuManager(val gameClass: GameClass) : KeyListener, MouseListener, MouseM
 		menuStack.pop().onPop()
 	}
 	
-	fun startGame(level: Level = loadLevel(1, gameMenu) ?: Level(50, 50, gameMenu), reset: Boolean = true) { // TODO: make level size a variable?
+	fun startGame(levelNum: Int = 1, level: Level = loadLevel(levelNum, gameMenu) ?: Level(50, 50, gameMenu), reset: Boolean = true) { // TODO: make level size a variable?
 		
 		if (reset) gameMenu.reset(level)
 		pushMenu(gameMenu)

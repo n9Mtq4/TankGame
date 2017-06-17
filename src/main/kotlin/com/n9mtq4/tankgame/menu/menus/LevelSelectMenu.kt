@@ -57,9 +57,9 @@ class LevelSelectMenu(menuManager: MenuManager) : Menu(menuManager) {
 		g.font = LEVEL_NAME_FONT
 		
 		g.color = Color.BLACK
-		g.drawString("Push ESC to go back", 20, 40)
+		g.drawString("Push ESC to go back. WASD or arrows to move. ", 20, 40)
 		
-		g.drawString("Currently $maxLevelNum levels exist", 20, 80)
+		g.drawString("E, Enter, or / to select. (Currently $maxLevelNum levels exist)", 20, 80)
 		
 		// level thumbnails
 		
@@ -83,6 +83,7 @@ class LevelSelectMenu(menuManager: MenuManager) : Menu(menuManager) {
 						val borderHeight = thumbnailHeight + THUMBNAIL_PADDING_Y / 2
 						g.color = BORDER_COLOR
 						g.fillRect(borderX, borderY, borderWidth, borderHeight)
+						// TODO: render level number, Inside or under? Could be overlaid w/ alpha until hovered over?
 					}
 					g.drawImage(levelThumbnails[index], dx, dy, thumbnailWidth, thumbnailHeight, null)
 				}
@@ -107,11 +108,37 @@ class LevelSelectMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 	}
 	
+	private fun changeIndex(dx: Int, dy: Int) {
+		
+		var x = selectedLevel % NUM_ROWS
+		var y = selectedLevel / NUM_ROWS
+		
+		x += dx
+		if (x < 0) x = NUM_COLS - 1
+		x %= NUM_COLS
+		y += dy
+		if (y < 0) y = NUM_ROWS
+		y %= NUM_ROWS
+		
+		val canidateIndex = x + y * NUM_ROWS
+		
+		if (canidateIndex in 0..levelThumbnails.size - 1) selectedLevel = x + y * NUM_ROWS
+		
+	}
+	
 	override fun keyPressed(e: KeyEvent?) {
 		
 		super.keyPressed(e) // esc to pop
 		
-		// TODO: a search thing
+		when(e?.keyCode) {
+			KeyEvent.VK_UP, KeyEvent.VK_W -> { changeIndex(0, -1) }
+			KeyEvent.VK_DOWN, KeyEvent.VK_S -> { changeIndex(0, 1) }
+			KeyEvent.VK_RIGHT, KeyEvent.VK_A -> { changeIndex(1, 0) }
+			KeyEvent.VK_LEFT, KeyEvent.VK_D -> { changeIndex(-1, 0) }
+			KeyEvent.VK_ENTER, KeyEvent.VK_E, KeyEvent.VK_SLASH -> { menuManager.startGame(levelNum = selectedLevel + 1) } // levels start at 1
+		}
+		
+		// TODO: a search thing or load a level number?
 		
 	}
 	

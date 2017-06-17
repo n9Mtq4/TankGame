@@ -173,7 +173,7 @@ class CreateLevelMenu(menuManager: MenuManager) : Menu(menuManager) {
 		if (sp1 != POINT2I_INVALID && sp2 != POINT2I_INVALID) {
 			// there are two spawn points, play the game
 			level.inLevelCreator = true
-			menuManager.startGame(level)
+			menuManager.startGame(level = level)
 		}else {
 			// there are not two spawn points, tell them to add some
 			menuManager.pushMenu(NoSpawnPointsMenu(menuManager))
