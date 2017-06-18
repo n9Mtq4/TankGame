@@ -94,6 +94,7 @@ class GameClass : Canvas(), Runnable {
 		requestFocus()
 		requestFocusInWindow()
 		tick()
+		
 		while (running) {
 			
 //			game loop
@@ -101,8 +102,11 @@ class GameClass : Canvas(), Runnable {
 			val passedTime = currentTime - previousTime
 			previousTime = currentTime
 			unprocessedSeconds += passedTime / 1000000000.0
+			var ticksInCycle = 0
 			
 			while (unprocessedSeconds > clockSpeed) {
+				
+				ticksInCycle++
 				
 				tick()
 				unprocessedSeconds -= clockSpeed
@@ -111,7 +115,7 @@ class GameClass : Canvas(), Runnable {
 				if (tickCount % TICKS_PER_SECOND.toInt() == 0) {
 					
 					println(tickCount.toString() + " ups, " + frames + " fps")
-					previousTime += 1000
+					previousTime = System.nanoTime()
 					fps = frames
 					frames = 0
 					tickCount = 0
@@ -119,6 +123,8 @@ class GameClass : Canvas(), Runnable {
 				}
 				
 			}
+			
+			// if (ticksInCycle > 1) println("More ticks: $ticksInCycle")
 			
 			if (ticked) {
 				
@@ -131,7 +137,12 @@ class GameClass : Canvas(), Runnable {
 			if (!FPS_CAP) {
 				render()
 				frames++
-			}else Thread.sleep(1000 / (TICKS_PER_SECOND.toLong() + passedTime)) // sleep thread for required time, based off how long the last cycle took
+			}else {
+				// sleep thread for required time, based off how long the last cycle took
+				val sleepTime = (clockSpeed * 1000 - 1.0 * (passedTime / 1000000.0)).toLong()
+				if (sleepTime > 0) Thread.sleep(sleepTime) // if sleepTime is negative, we are behind and must catch up
+				// else if (sleepTime < 0) println("Too low: $sleepTime")
+			}
 			
 		}
 		

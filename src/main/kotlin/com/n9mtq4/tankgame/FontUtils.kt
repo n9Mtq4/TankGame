@@ -3,8 +3,6 @@ package com.n9mtq4.tankgame
 import java.awt.Font
 import java.awt.font.FontRenderContext
 
-
-
 /**
  * Created by will on 5/28/17 at 10:42 PM.
  *
