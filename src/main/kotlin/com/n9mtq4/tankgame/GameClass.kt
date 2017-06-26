@@ -114,7 +114,7 @@ class GameClass : Canvas(), Runnable {
 				tickCount++
 				if (tickCount % TICKS_PER_SECOND.toInt() == 0) {
 					
-					println(tickCount.toString() + " ups, " + frames + " fps")
+					println("$tickCount ups, $frames fps")
 					previousTime = System.nanoTime()
 					fps = frames
 					frames = 0
