@@ -25,8 +25,6 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 				KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, 
 				KeyEvent.VK_RIGHT, KeyEvent.VK_B, KeyEvent.VK_A, KeyEvent.VK_ENTER)
 		
-		internal var CHEAT_ACTIVE = false
-		
 	}
 	
 	var level = loadLevel(1, this)
@@ -39,6 +37,7 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 	var tanks = listOf<Tank>(tank1, tank2)
 	
 	private var cheatCodeProgress = 0
+	internal var cheatActive = false
 	
 	fun reset(level: Level) {
 		tanks.forEach { it.reset() }
@@ -143,7 +142,7 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 				cheatCodeProgress++
 				if (cheatCodeProgress == CHEAT_CODE.size) {
 					cheatCodeProgress = 0
-					CHEAT_ACTIVE = !CHEAT_ACTIVE
+					cheatActive = !cheatActive
 				}
 			}else cheatCodeProgress = 0
 		}

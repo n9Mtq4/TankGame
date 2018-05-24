@@ -38,7 +38,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 	fun fire() {
 		
 		// check to see if they can shoot
-		if (cooldown > 0 && !GameMenu.CHEAT_ACTIVE) return
+		if (cooldown > 0 && !game.cheatActive) return
 		
 		// set cooldown
 		cooldown = COOLDOWN_VALUE.toInt()
