@@ -20,6 +20,13 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 	
 	companion object {
 		val SCORE_FONT = Font("Verdana", Font.BOLD, 100 * GAME_SCALE)
+		
+		private val CHEAT_CODE = arrayOf(KeyEvent.VK_UP, KeyEvent.VK_UP, KeyEvent.VK_DOWN, 
+				KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, 
+				KeyEvent.VK_RIGHT, KeyEvent.VK_B, KeyEvent.VK_A, KeyEvent.VK_ENTER)
+		
+		internal var CHEAT_ACTIVE = false
+		
 	}
 	
 	var level = loadLevel(1, this)
@@ -30,6 +37,8 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 	private var tank2 = Tank(120.0, 120.0, 180.0, TEAM_TWO_COLOR, tank2Controls, this)
 	
 	var tanks = listOf<Tank>(tank1, tank2)
+	
+	private var cheatCodeProgress = 0
 	
 	fun reset(level: Level) {
 		tanks.forEach { it.reset() }
@@ -127,6 +136,18 @@ class GameMenu(menuManager: MenuManager) : Menu(menuManager) {
 			KeyEvent.VK_RIGHT -> tank2Controls[3] = false
 			KeyEvent.VK_SLASH -> tank2Controls[4] = false
 		}
+		
+		// cheat code
+		e?.keyCode?.let {
+			if (it == CHEAT_CODE[cheatCodeProgress]) {
+				cheatCodeProgress++
+				if (cheatCodeProgress == CHEAT_CODE.size) {
+					cheatCodeProgress = 0
+					CHEAT_ACTIVE = !CHEAT_ACTIVE
+				}
+			}else cheatCodeProgress = 0
+		}
+		
 	}
 	
 }
