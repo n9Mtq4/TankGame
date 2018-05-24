@@ -147,6 +147,7 @@ class Tank(x: Double, y: Double, var angle: Double, val color: Color, val keyCon
 		cooldown = 0
 		angle = originalAngle
 		for (i in 0..keyControls.size - 1) keyControls[i] = false
+		projectiles.clear()
 	}
 	
 	fun getTransformedShape(): Shape {
