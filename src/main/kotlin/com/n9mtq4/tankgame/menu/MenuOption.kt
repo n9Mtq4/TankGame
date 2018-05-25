@@ -21,4 +21,6 @@ class MenuOption(var optionName: String, var description: String = "", val callb
 		
 	}
 	
+	operator fun invoke() = callback()
+	
 }

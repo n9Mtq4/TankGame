@@ -69,8 +69,8 @@ class LevelSelectMenu(menuManager: MenuManager) : Menu(menuManager) {
 		val xOffset = ((GAME_WIDTH * GAME_SCALE) - (thumbnailWidth * NUM_COLS)) / NUM_COLS / GAME_SCALE / 2 // half on left, half on right
 		val yOffset = ((GAME_HEIGHT * GAME_SCALE) - (thumbnailHeight * NUM_ROWS)) / NUM_ROWS / GAME_SCALE / 2 + TOP_MARGIN_Y
 		
-		for (y in 0..NUM_ROWS - 1) {
-			for (x in 0..NUM_COLS - 1) {
+		for (y in 0 until NUM_ROWS) {
+			for (x in 0 until NUM_COLS) {
 				// TODO: better upscale for level thumbnails
 				val index = x + y * NUM_ROWS
 				if (index < levelThumbnails.size) {
@@ -122,7 +122,7 @@ class LevelSelectMenu(menuManager: MenuManager) : Menu(menuManager) {
 		
 		val candidateIndex = x + y * NUM_ROWS
 		
-		if (candidateIndex in 0..levelThumbnails.size - 1) selectedLevel = x + y * NUM_ROWS
+		if (candidateIndex in 0 until levelThumbnails.size) selectedLevel = x + y * NUM_ROWS
 		
 	}
 	

@@ -90,12 +90,12 @@ class MainMenu(menuManager: MenuManager) : Menu(menuManager) {
 		}
 	}
 	
-	private fun runMenuOption() = options[selectedIndex].callback()
+	private fun runMenuOption() = options[selectedIndex]()
 	
 	/**
 	 * Search the option list to find a possible menu option that the mouse is hovering over.
 	 * */
-	private fun getSelectedOptionFromMouse(x: Int, y: Int) = options.filter { it.renderBounds?.contains(x, y) ?: false }.firstOrNull()
+	private fun getSelectedOptionFromMouse(x: Int, y: Int) = options.firstOrNull { it.renderBounds?.contains(x, y) ?: false }
 	
 	private fun setSelectedOptionFromMouse(x: Int, y: Int) {
 		getSelectedOptionFromMouse(x, y)?.let { this.selectedIndex = options.indexOf(it) }
